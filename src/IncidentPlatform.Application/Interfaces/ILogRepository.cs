@@ -1,6 +1,6 @@
-using IncidentPlatform.API.Models;
+using IncidentPlatform.Domain.Entities;
 
-namespace IncidentPlatform.API.Repositories;
+namespace IncidentPlatform.Application.Interfaces;
 
 public interface ILogRepository
 {

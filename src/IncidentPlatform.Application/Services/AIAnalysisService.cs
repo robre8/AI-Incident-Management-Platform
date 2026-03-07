@@ -1,6 +1,7 @@
-using IncidentPlatform.API.Models;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Domain.Entities;
 
-namespace IncidentPlatform.API.Services;
+namespace IncidentPlatform.Application.Services;
 
 public class AIAnalysisService : IAIAnalysisService
 {
@@ -9,6 +10,7 @@ public class AIAnalysisService : IAIAnalysisService
         var joinedLogs = string.Join(" ", logs.Select(l => l.Message).Take(10));
 
         var severity = "Medium";
+
         if (joinedLogs.Contains("timeout", StringComparison.OrdinalIgnoreCase) ||
             joinedLogs.Contains("unavailable", StringComparison.OrdinalIgnoreCase) ||
             joinedLogs.Contains("crash", StringComparison.OrdinalIgnoreCase))

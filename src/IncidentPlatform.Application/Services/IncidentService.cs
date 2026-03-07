@@ -1,20 +1,12 @@
-using IncidentPlatform.API.Models;
-using IncidentPlatform.API.Repositories;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Domain.Entities;
 
-namespace IncidentPlatform.API.Services;
-
-public interface IIncidentService
-{
-    Task<Incident> CreateIncidentAsync(IncidentDTO dto);
-    Task<IEnumerable<Incident>> GetAllIncidentsAsync();
-    Task<Incident?> GetIncidentByIdAsync(Guid id);
-    Task<Incident?> UpdateIncidentAsync(Guid id, IncidentDTO dto);
-    Task<bool> DeleteIncidentAsync(Guid id);
-}
+namespace IncidentPlatform.Application.Services;
 
 public class IncidentService : IIncidentService
 {
     private readonly IIncidentRepository _repo;
+
     public IncidentService(IIncidentRepository repo) => _repo = repo;
 
     public async Task<Incident> CreateIncidentAsync(IncidentDTO dto)
@@ -30,6 +22,7 @@ public class IncidentService : IIncidentService
     }
 
     public Task<IEnumerable<Incident>> GetAllIncidentsAsync() => _repo.GetAllAsync();
+
     public Task<Incident?> GetIncidentByIdAsync(Guid id) => _repo.GetByIdAsync(id);
 
     public async Task<Incident?> UpdateIncidentAsync(Guid id, IncidentDTO dto)
@@ -43,7 +36,6 @@ public class IncidentService : IIncidentService
         incident.Description = dto.Description;
 
         await _repo.UpdateAsync(incident);
-
         return incident;
     }
 
@@ -55,7 +47,6 @@ public class IncidentService : IIncidentService
             return false;
 
         await _repo.DeleteAsync(incident);
-
         return true;
     }
 }

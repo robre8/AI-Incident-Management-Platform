@@ -1,6 +1,7 @@
-using IncidentPlatform.API.Infrastructure.Data;
-using IncidentPlatform.API.Repositories;
-using IncidentPlatform.API.Services;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Application.Services;
+using IncidentPlatform.Infrastructure.Data;
+using IncidentPlatform.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,14 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<IncidentDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSingleton(sp =>
-{
-    var configuration = sp.GetRequiredService<IConfiguration>();
-    var connectionString = configuration["MongoSettings:ConnectionString"]
-        ?? throw new InvalidOperationException("MongoDB connection string not configured.");
+var mongoSettings = builder.Configuration
+    .GetSection("MongoSettings")
+    .Get<MongoSettings>() ?? throw new InvalidOperationException("MongoSettings not configured.");
 
-    return new MongoLogContext(connectionString);
-});
+builder.Services.AddSingleton(mongoSettings);
+builder.Services.AddSingleton<MongoLogContext>();
 
 builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();

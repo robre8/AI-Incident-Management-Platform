@@ -1,6 +1,6 @@
 using FluentAssertions;
-using IncidentPlatform.API.Models;
-using IncidentPlatform.API.Services;
+using IncidentPlatform.Application.Services;
+using IncidentPlatform.Domain.Entities;
 
 namespace IncidentPlatform.Tests.Services;
 

@@ -1,17 +1,15 @@
-using IncidentPlatform.API.Infrastructure.Data;
-using IncidentPlatform.API.Models;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Domain.Entities;
+using IncidentPlatform.Infrastructure.Data;
 using MongoDB.Driver;
 
-namespace IncidentPlatform.API.Repositories;
+namespace IncidentPlatform.Infrastructure.Repositories;
 
 public class LogRepository : ILogRepository
 {
     private readonly MongoLogContext _context;
 
-    public LogRepository(MongoLogContext context)
-    {
-        _context = context;
-    }
+    public LogRepository(MongoLogContext context) => _context = context;
 
     public async Task AddAsync(LogEntry log)
     {

@@ -1,4 +1,4 @@
-namespace IncidentPlatform.API.Models;
+namespace IncidentPlatform.Domain.Entities;
 
 public class AIAnalysisResult
 {

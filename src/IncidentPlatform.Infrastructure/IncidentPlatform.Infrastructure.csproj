@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IncidentPlatform.Domain\IncidentPlatform.Domain.csproj" />
+    <ProjectReference Include="..\IncidentPlatform.Application\IncidentPlatform.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
+    <PackageReference Include="MongoDB.Driver" Version="3.7.0" />
   </ItemGroup>
 
   <PropertyGroup>

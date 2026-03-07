@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\IncidentPlatform.API\IncidentPlatform.API.csproj" />
+    <ProjectReference Include="..\..\src\IncidentPlatform.Domain\IncidentPlatform.Domain.csproj" />
+    <ProjectReference Include="..\..\src\IncidentPlatform.Application\IncidentPlatform.Application.csproj" />
   </ItemGroup>
 
 </Project>

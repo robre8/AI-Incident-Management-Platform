@@ -1,8 +1,8 @@
 using FluentAssertions;
 using Moq;
-using IncidentPlatform.API.Models;
-using IncidentPlatform.API.Repositories;
-using IncidentPlatform.API.Services;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Application.Services;
+using IncidentPlatform.Domain.Entities;
 
 namespace IncidentPlatform.Tests.Services;
 

@@ -1,8 +1,8 @@
 using FluentAssertions;
 using Moq;
 using IncidentPlatform.API.Controllers;
-using IncidentPlatform.API.Models;
-using IncidentPlatform.API.Services;
+using IncidentPlatform.Application.Interfaces;
+using IncidentPlatform.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IncidentPlatform.Tests.Controllers;

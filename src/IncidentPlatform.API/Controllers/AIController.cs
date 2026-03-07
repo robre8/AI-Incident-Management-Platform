@@ -1,4 +1,4 @@
-using IncidentPlatform.API.Services;
+using IncidentPlatform.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IncidentPlatform.API.Controllers;
