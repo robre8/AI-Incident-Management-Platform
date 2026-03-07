@@ -1,3 +1,4 @@
+using IncidentPlatform.API.Services;
 using IncidentPlatform.Application.Interfaces;
 using IncidentPlatform.Application.Services;
 using IncidentPlatform.Infrastructure.Data;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<IIncidentService, IncidentService>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAIAnalysisService, AIAnalysisService>();
+builder.Services.AddScoped<IAwsFileService, AwsFileService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

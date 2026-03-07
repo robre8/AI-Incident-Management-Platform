@@ -7,9 +7,24 @@ obj/
 .vs/
 *.user
 
-# Environment and secrets
+# Environment and secrets — NEVER commit real credentials
 .env
-src/IncidentPlatform.API/appsettings.Development.json
+.env.*
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+secrets.json
+usersecrets.json
+
+# .NET user secrets
+**/Properties/launchSettings.json.user
+
+# SSL certificates and private keys
+*.pfx
+*.p12
+*.pem
+*.key
+*.cer
 
 # NuGet packages
 *.nupkg
