@@ -76,13 +76,14 @@ public class AIControllerTests
         var analysisResult = new AIAnalysisResult
         {
             Severity = "Critical",
-            RootCause = "Possible issue detected from logs related to 'Production API timeout'.",
-            SuggestedFix = "Review failing dependencies and inspect recent deployments.",
+            Category = "database",
+            RootCause = "Database layer failure detected in incident 'Production API timeout'.",
+            SuggestedFix = "Immediately check database connection pool saturation and active locks.",
             RecommendedTests = new List<string>
             {
-                "Add unit tests for the affected service method.",
-                "Add integration tests for the failing workflow.",
-                "Add regression tests covering the reported incident scenario."
+                "Add integration tests simulating connection pool exhaustion.",
+                "Add unit tests for repository retry and timeout handling.",
+                "Add chaos tests that inject database unavailability and verify graceful degradation."
             }
         };
 
