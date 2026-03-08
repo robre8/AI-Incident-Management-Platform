@@ -8,7 +8,10 @@ export default function AttachmentUpload({ onUpload }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!file) return;
+    if (!file) {
+      setError("Select a file first.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -17,8 +20,13 @@ export default function AttachmentUpload({ onUpload }) {
       setResult(data);
       setFile(null);
       e.target.reset();
-    } catch {
-      setError("Upload failed. Try again.");
+    } catch (err) {
+      const message =
+        err?.response?.data?.detail ||
+        err?.response?.data ||
+        err?.message ||
+        "Upload failed. Try again.";
+      setError(String(message));
     } finally {
       setLoading(false);
     }
@@ -40,7 +48,7 @@ export default function AttachmentUpload({ onUpload }) {
 
         <button
           type="submit"
-          disabled={!file || loading}
+          disabled={loading}
           className="rounded-lg bg-slate-900 px-4 py-2 text-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
         >
           {loading ? "Uploading..." : "Upload File"}
