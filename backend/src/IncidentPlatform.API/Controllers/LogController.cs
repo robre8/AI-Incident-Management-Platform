@@ -18,14 +18,36 @@ public class LogController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<LogEntry>>> GetByIncidentId(Guid incidentId)
     {
-        var logs = await _service.GetLogsByIncidentIdAsync(incidentId);
-        return Ok(logs);
+        try
+        {
+            var logs = await _service.GetLogsByIncidentIdAsync(incidentId);
+            return Ok(logs);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
+            {
+                error = "Logs service unavailable",
+                detail = ex.Message
+            });
+        }
     }
 
     [HttpPost]
     public async Task<ActionResult<LogEntry>> Create(Guid incidentId, [FromBody] LogEntry log)
     {
-        var created = await _service.CreateLogAsync(incidentId, log);
-        return Ok(created);
+        try
+        {
+            var created = await _service.CreateLogAsync(incidentId, log);
+            return Ok(created);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
+            {
+                error = "Logs service unavailable",
+                detail = ex.Message
+            });
+        }
     }
 }

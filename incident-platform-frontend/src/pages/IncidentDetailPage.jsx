@@ -15,18 +15,23 @@ export default function IncidentDetailPage() {
 
   const [incident, setIncident] = useState(null);
   const [logs, setLogs] = useState([]);
+  const [logsError, setLogsError] = useState(null);
   const [analysis, setAnalysis] = useState(null);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const [incidentData, logsData] = await Promise.all([
-        getIncidentById(id),
-        getLogsByIncident(id),
-      ]);
-
+      const incidentData = await getIncidentById(id);
       setIncident(incidentData);
-      setLogs(logsData);
+
+      try {
+        const logsData = await getLogsByIncident(id);
+        setLogs(logsData);
+        setLogsError(null);
+      } catch {
+        setLogs([]);
+        setLogsError("Logs are temporarily unavailable.");
+      }
     }
 
     load();
@@ -59,7 +64,14 @@ export default function IncidentDetailPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <LogList logs={logs} />
+        <div className="space-y-3">
+          {logsError && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+              {logsError}
+            </div>
+          )}
+          <LogList logs={logs} />
+        </div>
         <AttachmentUpload onUpload={handleUpload} />
       </div>
 
