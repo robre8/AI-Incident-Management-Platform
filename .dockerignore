@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+.vscode/
+.git/
+publish/
+tests/
+*.user
+.env
+.env.*

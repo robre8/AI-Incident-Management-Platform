@@ -29,6 +29,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Auto-apply pending EF Core migrations (safe to run on every startup)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<IncidentDbContext>();
+    db.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
