@@ -1,17 +1,17 @@
 import { api } from "./client";
 
 export async function getIncidents() {
-  const res = await api.get("/api/incidents");
+  const res = await api.get("/api/incident");
   return res.data;
 }
 
 export async function getIncidentById(id) {
-  const res = await api.get(`/api/incidents/${id}`);
+  const res = await api.get(`/api/incident/${id}`);
   return res.data;
 }
 
 export async function createIncident(payload) {
-  const res = await api.post("/api/incidents", payload);
+  const res = await api.post("/api/incident", payload);
   return res.data;
 }
 

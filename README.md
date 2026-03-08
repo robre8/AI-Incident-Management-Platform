@@ -348,14 +348,19 @@ Allowed origins are controlled via `appsettings.json`:
 ```json
 "AllowedOrigins": [
   "http://localhost:3000",
-  "https://localhost:3000"
+  "https://localhost:3000",
+  "http://localhost:5173",
+  "https://localhost:5173",
+  "https://incidentplatform.space",
+  "https://www.incidentplatform.space"
 ]
 ```
 
-Add your production frontend URL (e.g. Vercel deployment) via an environment variable:
+Add production frontend URLs via environment variables:
 
 ```
-AllowedOrigins__2=https://your-app.vercel.app
+AllowedOrigins__4=https://incidentplatform.space
+AllowedOrigins__5=https://www.incidentplatform.space
 ```
 
 ---
