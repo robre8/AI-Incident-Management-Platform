@@ -4,16 +4,16 @@ WORKDIR /app
 
 # Copy project files first — restores independently (better layer caching)
 COPY AI-First-Incident-Management-Platform.sln .
-COPY src/IncidentPlatform.Domain/IncidentPlatform.Domain.csproj                       src/IncidentPlatform.Domain/
-COPY src/IncidentPlatform.Application/IncidentPlatform.Application.csproj             src/IncidentPlatform.Application/
-COPY src/IncidentPlatform.Infrastructure/IncidentPlatform.Infrastructure.csproj       src/IncidentPlatform.Infrastructure/
-COPY src/IncidentPlatform.API/IncidentPlatform.API.csproj                             src/IncidentPlatform.API/
+COPY backend/src/IncidentPlatform.Domain/IncidentPlatform.Domain.csproj                       backend/src/IncidentPlatform.Domain/
+COPY backend/src/IncidentPlatform.Application/IncidentPlatform.Application.csproj             backend/src/IncidentPlatform.Application/
+COPY backend/src/IncidentPlatform.Infrastructure/IncidentPlatform.Infrastructure.csproj       backend/src/IncidentPlatform.Infrastructure/
+COPY backend/src/IncidentPlatform.API/IncidentPlatform.API.csproj                             backend/src/IncidentPlatform.API/
 
-RUN dotnet restore src/IncidentPlatform.API/IncidentPlatform.API.csproj
+RUN dotnet restore backend/src/IncidentPlatform.API/IncidentPlatform.API.csproj
 
 # Copy full source and publish
-COPY src/ src/
-RUN dotnet publish src/IncidentPlatform.API/IncidentPlatform.API.csproj \
+COPY backend/src/ backend/src/
+RUN dotnet publish backend/src/IncidentPlatform.API/IncidentPlatform.API.csproj \
     -c Release \
     -o /app/out \
     --no-restore

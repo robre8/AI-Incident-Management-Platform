@@ -64,5 +64,6 @@ if (!app.Environment.IsProduction())
 
 app.UseCors("FrontendPolicy");
 app.MapGet("/", () => "AI Incident Platform API is running.");
+app.MapGet("/health", () => Results.Ok("Healthy"));
 app.MapControllers();
 app.Run();

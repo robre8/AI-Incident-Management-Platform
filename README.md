@@ -36,29 +36,30 @@ A full-stack incident management system built with .NET 8 (Clean Architecture) a
 5-project Clean Architecture  one project per layer, strict inside-out dependency rule:
 
 ```
-src/
- IncidentPlatform.Domain/
-    Entities/             # Incident, LogEntry (BSON), AIAnalysisResult, IncidentDTO
+backend/
+ src/
+  IncidentPlatform.Domain/
+     Entities/             # Incident, LogEntry (BSON), AIAnalysisResult, IncidentDTO
 
- IncidentPlatform.Application/
-    Interfaces/           # IIncidentRepository, IIncidentService, ILogRepository,
-                            # ILogService, IAIAnalysisService
-    Services/             # IncidentService, LogService, AIAnalysisService
+  IncidentPlatform.Application/
+     Interfaces/           # IIncidentRepository, IIncidentService, ILogRepository,
+                             # ILogService, IAIAnalysisService
+     Services/             # IncidentService, LogService, AIAnalysisService
 
- IncidentPlatform.Infrastructure/
-    Data/                 # IncidentDbContext (EF Core), MongoLogContext, MongoSettings
-    Repositories/         # IncidentRepository (SQL), LogRepository (MongoDB)
+  IncidentPlatform.Infrastructure/
+     Data/                 # IncidentDbContext (EF Core), MongoLogContext, MongoSettings
+     Repositories/         # IncidentRepository (SQL), LogRepository (MongoDB)
 
- IncidentPlatform.API/
-    Controllers/          # IncidentsController, LogController, AIController,
-                            # AttachmentController
-    Models/               # AwsSettings
-    Services/             # IAwsFileService, AwsFileService
+  IncidentPlatform.API/
+     Controllers/          # IncidentsController, LogController, AIController,
+                             # AttachmentController
+     Models/               # AwsSettings
+     Services/             # IAwsFileService, AwsFileService
 
-tests/
- IncidentPlatform.Tests/
-     Services/             # IncidentServiceTests, LogServiceTests, AIAnalysisServiceTests
-     Controllers/          # IncidentControllerTests, AIControllerTests
+ tests/
+  IncidentPlatform.Tests/
+      Services/             # IncidentServiceTests, LogServiceTests, AIAnalysisServiceTests
+      Controllers/          # IncidentControllerTests, AIControllerTests
 
 frontend/
  app/
@@ -184,7 +185,7 @@ cd AI-First-Incident-Management-Platform
 `appsettings.Development.json` is gitignored. Create it:
 
 ```bash
-cp src/IncidentPlatform.API/appsettings.Example.json src/IncidentPlatform.API/appsettings.Development.json
+cp backend/src/IncidentPlatform.API/appsettings.Example.json backend/src/IncidentPlatform.API/appsettings.Development.json
 ```
 
 Edit `appsettings.Development.json`:
@@ -221,14 +222,14 @@ Or configure via `aws configure`.
 
 ```bash
 dotnet ef database update \
-  --project src/IncidentPlatform.Infrastructure \
-  --startup-project src/IncidentPlatform.API
+  --project backend/src/IncidentPlatform.Infrastructure \
+  --startup-project backend/src/IncidentPlatform.API
 ```
 
 ### 5. Run the API
 
 ```bash
-dotnet run --project src/IncidentPlatform.API
+dotnet run --project backend/src/IncidentPlatform.API
 ```
 
 API: `http://localhost:5116` | Swagger: `http://localhost:5116/swagger`
@@ -268,7 +269,7 @@ The API auto-migrates the database on startup. Volumes `sqlserver_data` and `mon
 ## Run Tests
 
 ```bash
-dotnet test tests/IncidentPlatform.Tests/IncidentPlatform.Tests.csproj
+dotnet test backend/tests/IncidentPlatform.Tests/IncidentPlatform.Tests.csproj
 ```
 
 All 22 tests are pure unit tests  no database or AWS connection required.
@@ -285,16 +286,22 @@ All 22 tests are pure unit tests  no database or AWS connection required.
 
 ## CI/CD Pipeline
 
-This project uses GitHub Actions to automatically deploy the API to AWS Elastic Beanstalk.
+The backend is automatically deployed using GitHub Actions. Every push to `main` triggers the deployment pipeline.
 
 **Workflow:**
 ```
-GitHub → Build (.NET) → Upload to S3 → Deploy to Elastic Beanstalk
+GitHub → Build (.NET 8) → Package → Upload to S3 → Deploy to AWS Elastic Beanstalk
 ```
+
+**Technologies used:**
+- GitHub Actions
+- AWS Elastic Beanstalk
+- Amazon S3
+- .NET 8
 
 GitHub Actions workflow: `.github/workflows/deploy-backend.yml`
 
-**Triggers:** push to `main` with changes in `src/**` or the workflow file itself.
+**Triggers:** push to `main` with changes in `backend/src/**` or the workflow file itself.
 
 **Pipeline steps:**
 

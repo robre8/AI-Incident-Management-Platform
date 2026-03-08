@@ -5,17 +5,17 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2166EBD8-03F6-4206-9275-C884179BB171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.API", "src\IncidentPlatform.API\IncidentPlatform.API.csproj", "{5B68899C-F65C-46E4-95EB-9E1866F2990B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.API", "backend\src\IncidentPlatform.API\IncidentPlatform.API.csproj", "{5B68899C-F65C-46E4-95EB-9E1866F2990B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Domain", "src\IncidentPlatform.Domain\IncidentPlatform.Domain.csproj", "{9A7D6370-602E-466F-BC46-850411BA22E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Domain", "backend\src\IncidentPlatform.Domain\IncidentPlatform.Domain.csproj", "{9A7D6370-602E-466F-BC46-850411BA22E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Application", "src\IncidentPlatform.Application\IncidentPlatform.Application.csproj", "{575F9083-A3F4-4323-8B2C-F6334C84112A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Application", "backend\src\IncidentPlatform.Application\IncidentPlatform.Application.csproj", "{575F9083-A3F4-4323-8B2C-F6334C84112A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Infrastructure", "src\IncidentPlatform.Infrastructure\IncidentPlatform.Infrastructure.csproj", "{721B587F-4C97-4EAE-8912-EF5D88FCB03E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Infrastructure", "backend\src\IncidentPlatform.Infrastructure\IncidentPlatform.Infrastructure.csproj", "{721B587F-4C97-4EAE-8912-EF5D88FCB03E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9CA40047-22C4-4051-9DAB-6C161933C958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Tests", "tests\IncidentPlatform.Tests\IncidentPlatform.Tests.csproj", "{F90F04F1-1F5D-43B5-9FA1-8626D05CDDB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncidentPlatform.Tests", "backend\tests\IncidentPlatform.Tests\IncidentPlatform.Tests.csproj", "{F90F04F1-1F5D-43B5-9FA1-8626D05CDDB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/**'
+      - 'backend/src/**'
       - '.github/workflows/deploy-backend.yml'
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Publish self-contained (linux-x64)
         run: |
-          dotnet publish src/IncidentPlatform.API \
+          dotnet publish backend/src/IncidentPlatform.API \
             -c Release \
             -r linux-x64 \
             --self-contained true \
