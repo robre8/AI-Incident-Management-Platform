@@ -18,18 +18,21 @@ export default function IncidentDetailPage() {
   const [incident, setIncident] = useState(null);
   const [logs, setLogs] = useState([]);
   const [logsError, setLogsError] = useState(null);
+  const [loadingLogs, setLoadingLogs] = useState(true);
   const [analysis, setAnalysis] = useState(null);
   const [analysisError, setAnalysisError] = useState(null);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
 
   async function loadLogs() {
+    setLoadingLogs(true);
     try {
       const logsData = await getLogsByIncident(id);
       setLogs(logsData);
       setLogsError(null);
     } catch {
-      setLogs([]);
       setLogsError("Logs are temporarily unavailable.");
+    } finally {
+      setLoadingLogs(false);
     }
   }
 
@@ -45,8 +48,11 @@ export default function IncidentDetailPage() {
   }, [id]);
 
   async function handleCreateLog(payload) {
-    await createLog(id, payload);
-    await loadLogs();
+    const created = await createLog(id, payload);
+    setLogs((prev) => [created, ...prev]);
+
+    // Keep client state aligned with backend ordering/shape without blocking UI.
+    loadLogs();
   }
 
   async function handleAnalyze() {
@@ -86,7 +92,7 @@ export default function IncidentDetailPage() {
             </div>
           )}
           <LogForm onSubmit={handleCreateLog} />
-          <LogList logs={logs} />
+          <LogList logs={logs} loading={loadingLogs} />
         </div>
         <AttachmentUpload onUpload={handleUpload} />
       </div>

@@ -1,9 +1,11 @@
-export default function LogList({ logs }) {
+export default function LogList({ logs, loading = false }) {
   return (
     <div className="rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="mb-4 text-lg font-semibold">Logs</h2>
 
-      {logs.length === 0 ? (
+      {loading ? (
+        <p className="text-sm text-slate-500">Loading logs...</p>
+      ) : logs.length === 0 ? (
         <p className="text-sm text-slate-500">No logs found.</p>
       ) : (
         <div className="space-y-3">
