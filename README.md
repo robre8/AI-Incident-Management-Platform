@@ -1,4 +1,4 @@
-﻿# AI-First Incident Management Platform
+﻿# AI Incident Management Platform
 
 [![CI](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/ci.yml) [![Deploy Backend](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/deploy-backend.yml/badge.svg)](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/deploy-backend.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
