@@ -45,12 +45,11 @@ public class AIController : ControllerBase
             var result = await _aiService.AnalyzeIncidentAsync(incident, logs);
             return Ok(result);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return StatusCode(StatusCodes.Status503ServiceUnavailable, new
             {
-                error = "AI analysis service unavailable",
-                detail = ex.Message
+                error = "AI analysis service unavailable"
             });
         }
     }

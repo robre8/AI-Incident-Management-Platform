@@ -57,10 +57,15 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI();
 
-if (!app.Environment.IsProduction())
+app.UseHttpsRedirection();
+
+app.Use(async (context, next) =>
 {
-    app.UseHttpsRedirection();
-}
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    await next();
+});
 
 app.UseCors("FrontendPolicy");
 app.MapGet("/", () => "AI Incident Platform API is running.");

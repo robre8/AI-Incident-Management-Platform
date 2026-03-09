@@ -23,12 +23,11 @@ public class LogController : ControllerBase
             var logs = await _service.GetLogsByIncidentIdAsync(incidentId);
             return Ok(logs);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return StatusCode(StatusCodes.Status503ServiceUnavailable, new
             {
-                error = "Logs service unavailable",
-                detail = ex.Message
+                error = "Logs service unavailable"
             });
         }
     }
@@ -41,12 +40,11 @@ public class LogController : ControllerBase
             var created = await _service.CreateLogAsync(incidentId, log);
             return Ok(created);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return StatusCode(StatusCodes.Status503ServiceUnavailable, new
             {
-                error = "Logs service unavailable",
-                detail = ex.Message
+                error = "Logs service unavailable"
             });
         }
     }

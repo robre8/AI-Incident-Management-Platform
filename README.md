@@ -174,7 +174,30 @@ POST /api/incidents/{incidentId}/attachments
 
 Request: `multipart/form-data`, field name `file`
 
-Swagger UI is always available at `/swagger`.
+Swagger UI is available at `/swagger`.
+
+---
+
+## Security Considerations
+
+This application is a **portfolio demo** intended to showcase full-stack architecture, AI-powered analysis, polyglot persistence, and CI/CD practices to recruiters and hiring managers. As such, some security trade-offs were made intentionally to keep the live demo publicly accessible and easy to evaluate:
+
+| Area | Status | Notes |
+|------|--------|-------|
+| **Authentication / Login** | Not implemented | No user accounts or login flow — all endpoints are publicly accessible so recruiters can interact with the live demo without credentials. |
+| **Authorization / RBAC** | Not implemented | No role-based access control — any visitor can create, read, update, and delete incidents. |
+| **Rate limiting** | Not implemented | API endpoints have no throttling — acceptable for a low-traffic demo. |
+| **CSRF protection** | Not implemented | Typical for SPA + API architecture with token-based auth (which would be added in production). |
+| **File upload validation** | Implemented | File type whitelist, 5 MB size limit, and filename sanitization are enforced. |
+| **Input validation** | Implemented | Title, description, and log fields have length constraints via `DataAnnotations`. |
+| **Security headers** | Implemented | `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers are set on all responses. |
+| **Error handling** | Implemented | Internal exception details are never exposed to clients — only generic error messages are returned. |
+| **HTTPS** | Enforced | HTTPS redirection is active in all environments. |
+| **Swagger** | Public | Swagger UI is available in all environments so recruiters can explore the API interactively. |
+| **Docker** | Hardened | Container runs as a non-root user. |
+| **Secrets management** | Proper | All credentials are managed via environment variables and GitHub Secrets — nothing is hardcoded. |
+
+> **In a production system**, authentication (e.g. JWT / OAuth 2.0), role-based authorization, rate limiting, CSRF tokens, and audit logging would be implemented before any real data is handled.
 
 ---
 

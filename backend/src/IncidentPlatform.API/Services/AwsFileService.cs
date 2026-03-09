@@ -21,7 +21,8 @@ public class AwsFileService : IAwsFileService
 
     public async Task<string> UploadFileAsync(Stream fileStream, string fileName, string contentType)
     {
-        var key = $"{Guid.NewGuid()}_{fileName}";
+        var safeName = Path.GetFileName(fileName);
+        var key = $"{Guid.NewGuid()}_{safeName}";
 
         var request = new PutObjectRequest
         {
