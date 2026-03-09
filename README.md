@@ -17,6 +17,7 @@ Built entirely through AI-assisted development using GitHub Copilot — from arc
 - **Graceful degradation** — MongoDB or AI failures return 503 with contextual error messages. The UI stays functional even when secondary services are down.
 - **Status lifecycle with server-side validation** — Incident status transitions are normalized and validated against an allowlist (`Open`, `In Progress`, `Resolved`, `Closed`). Invalid values throw `ArgumentException` before hitting the database.
 - **Comprehensive test coverage (118 tests)** — Backend: 47 xUnit tests (service + controller layers). Frontend: 71 Vitest + React Testing Library tests (API client, components, full-page integration). All tests use AAA pattern, behavior-driven assertions, and clean mocking — no trivial "renders without crash" tests.
+- **Dark mode with system detection** — Theme toggle persisted in `localStorage`, auto-detects `prefers-color-scheme`. All components styled with Tailwind `dark:` variants. Smooth transitions, zero layout shift.
 - **CI/CD with zero-downtime deployments** — GitHub Actions builds, packages, and deploys to Elastic Beanstalk on every push to `main`. Frontend auto-deploys to Vercel on merge.
 
 ---
@@ -72,6 +73,7 @@ backend/
 incident-platform-frontend/
  src/
    api/                    # Axios client + typed API functions
+   context/                # ThemeContext (dark mode provider + useTheme hook)
    components/             # IncidentCard, IncidentForm, LogForm, LogList,
                            # AttachmentUpload, AIAnalysisPanel, Layout
    pages/                  # DashboardPage, CreateIncidentPage, IncidentDetailPage
@@ -421,7 +423,7 @@ This project was built end-to-end using **GitHub Copilot** as an AI pair-program
 | **Architecture** | Full 5-project Clean Architecture scaffolding, interface definitions, dependency injection wiring — described in natural language, generated and iterated conversationally |
 | **Feature development** | Service implementations, repository patterns, controller actions, DTO design with status lifecycle validation — built from defined inputs/outputs |
 | **Testing (118 tests)** | AI-assisted TDD: described expected behaviors, generated test cases covering happy paths + edge cases + error scenarios. Refined prompts to improve assertion quality |
-| **Frontend** | Complete React SPA with component architecture, API client, routing, state management — all generated through conversational prompting |
+| **Frontend** | Complete React SPA with component architecture, API client, routing, state management, dark mode with system preference detection — all generated through conversational prompting |
 | **DevOps** | Dockerfile, docker-compose, GitHub Actions CI/CD pipeline, CORS policy, `.gitignore` hardening, Elastic Beanstalk configuration |
 | **Security** | MongoDB Atlas IP whitelisting with Elastic IP, RDS security group review, S3 bucket policy audit |
 | **Debugging** | API route mismatches, CORS issues, MongoDB connectivity, deployment failures — diagnosed and resolved through AI-guided troubleshooting |
