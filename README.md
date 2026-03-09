@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/ci.yml) [![Deploy Backend](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/deploy-backend.yml/badge.svg)](https://github.com/robre8/AI-Incident-Management-Platform/actions/workflows/deploy-backend.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Production-grade incident management system built with **AI-first engineering practices**. Full-stack C#/.NET 8 backend (Clean Architecture) with a React 19 SPA frontend deployed across AWS. Polyglot persistence (SQL Server + MongoDB), S3 file storage, AI-powered root cause analysis, and **118 automated tests** across both stacks.
+Production-grade incident management system built with **AI-first engineering practices**. Full-stack C#/.NET 8 backend (Clean Architecture) with a React 19 SPA frontend deployed across AWS. Polyglot persistence (SQL Server + MongoDB), S3 file storage, AI-powered root cause analysis, and **117 automated tests** across both stacks.
 
 Built entirely through AI-assisted development using GitHub Copilot — from architecture scaffolding to unit test generation, infrastructure configuration, and CI/CD pipeline authoring.
 
@@ -96,7 +96,7 @@ POST /api/ai/analyze/{incidentId}
 
 ```
 POST /api/incidents/{incidentId}/attachments
-  → validate IFormFile (null + empty checks)
+  → validate IFormFile (type whitelist, 5 MB limit, filename sanitization)
   → AwsFileService.UploadFileAsync → AWS S3 PutObjectRequest
   → return { IncidentId, FileKey }
 ```
@@ -192,7 +192,7 @@ This application is a **portfolio demo** intended to showcase full-stack archite
 
 | Area | Status | Notes |
 |------|--------|-------|
-| **API Key authentication** | Implemented | All API endpoints require an `X-API-Key` header. Swagger UI includes an "Authorize" button to enter the key. |
+| **API Key authentication** | Implemented | All API endpoints require an `X-API-Key` header. The key acts as a speed bump against bots and scrapers. Swagger UI includes an "Authorize" button for easy testing. |
 | **Authorization / RBAC** | Not implemented | No role-based access control — any authenticated visitor can create, read, update, and delete incidents. |
 | **Rate limiting** | Not implemented | API endpoints have no throttling — acceptable for a low-traffic demo. |
 | **CSRF protection** | Not implemented | Typical for SPA + API architecture with token-based auth (which would be added in production). |
@@ -201,9 +201,10 @@ This application is a **portfolio demo** intended to showcase full-stack archite
 | **Security headers** | Implemented | `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers are set on all responses. |
 | **Error handling** | Implemented | Internal exception details are never exposed to clients — only generic error messages are returned. |
 | **HTTPS** | Enforced | HTTPS redirection is active in all environments. |
-| **Swagger** | Public | Swagger UI is available in all environments so recruiters can explore the API interactively. |
-| **Docker** | Hardened | Container runs as a non-root user. |
-| **Secrets management** | Proper | All credentials are managed via environment variables and GitHub Secrets — nothing is hardcoded. |
+| **CORS** | Configured | Strict origin whitelist — only the frontend domains are allowed. No wildcard origins. |
+| **Swagger** | Public | Swagger UI is available in all environments so recruiters can explore the API interactively (requires API key). |
+| **Docker** | Hardened | Container runs as a non-root user. MongoDB and SQL Server use authenticated connections. |
+| **Secrets management** | Proper | All credentials (DB passwords, AWS keys, API key, S3 bucket) are managed via environment variables and GitHub Secrets — nothing is hardcoded in source. |
 
 > **In a production system**, JWT / OAuth 2.0, role-based authorization, rate limiting, CSRF tokens, and audit logging would replace the static API key.
 
@@ -246,13 +247,14 @@ Edit `appsettings.Development.json`:
     "LogsCollectionName": "Logs"
   },
   "AwsSettings": {
-    "BucketName": "your-s3-bucket",
-    "Region": "us-east-1"
-  }
+    "BucketName": "your-s3-bucket-name",
+    "Region": "us-east-2"
+  },
+  "ApiKey": "your-api-key-here"
 }
 ```
 
-For MongoDB Atlas replace ConnectionString with the `mongodb+srv://...` URI.
+For MongoDB Atlas replace `ConnectionString` with the `mongodb+srv://...` URI.
 
 ### 3. Set AWS credentials (file upload only)
 
@@ -283,7 +285,7 @@ API: `http://localhost:5116` | Swagger: `http://localhost:5116/swagger`
 
 ```bash
 cd incident-platform-frontend
-cp .env.example .env        # set VITE_API_URL=http://localhost:5116
+cp .env.example .env        # set VITE_API_URL and VITE_API_KEY
 npm install
 npm run dev
 ```
@@ -298,14 +300,14 @@ The fastest way to start everything locally:
 
 ```bash
 cp .env.example .env
-# Edit .env: set SA_PASSWORD and optionally AWS credentials
+# Edit .env: set SA_PASSWORD, MONGO credentials, AWS credentials, and API_KEY
 docker compose up --build
 ```
 
 Services started:
-- **API** on `http://localhost:5116`
-- **SQL Server 2022** on `localhost:1433`
-- **MongoDB 7** on `localhost:27017`
+- **API** on `http://localhost:5116` (requires `X-API-Key` header)
+- **SQL Server 2022** on `localhost:1433` (SA authentication)
+- **MongoDB 7** on `localhost:27017` (authenticated with `MONGO_INITDB_ROOT_USERNAME/PASSWORD`)
 
 The API auto-migrates the database on startup. Volumes `sqlserver_data` and `mongodb_data` persist data between restarts.
 
@@ -425,21 +427,21 @@ Allowed origins are controlled via `appsettings.json`:
 
 ```json
 "AllowedOrigins": [
-  "http://localhost:3000",
-  "https://localhost:3000",
-  "http://localhost:5173",
-  "https://localhost:5173",
   "https://incidentplatform.space",
-  "https://www.incidentplatform.space"
+  "https://www.incidentplatform.space",
+  "http://localhost:5173"
 ]
 ```
 
-Add production frontend URLs via environment variables:
+Add or override production frontend URLs via environment variables:
 
 ```
-AllowedOrigins__4=https://incidentplatform.space
-AllowedOrigins__5=https://www.incidentplatform.space
+AllowedOrigins__0=https://incidentplatform.space
+AllowedOrigins__1=https://www.incidentplatform.space
+AllowedOrigins__2=http://localhost:5173
 ```
+
+No wildcard origins (`*`) are used — only explicitly listed domains are allowed.
 
 ---
 

@@ -10,7 +10,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=IncidentPlatformDB;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True"
-      MongoSettings__ConnectionString: "mongodb://mongodb:27017"
+      MongoSettings__ConnectionString: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017"
       MongoSettings__DatabaseName: "IncidentLogsDB"
       MongoSettings__LogsCollectionName: "Logs"
       # AWS credentials — set in .env file (never commit real values)
@@ -48,6 +48,9 @@ services:
     image: mongo:7
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
     volumes:
       - mongodb_data:/data/db
 
