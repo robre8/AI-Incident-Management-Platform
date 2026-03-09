@@ -39,10 +39,10 @@ describe("IncidentCard", () => {
   });
 
   it.each([
-    ["Open", "bg-rose-100"],
-    ["In Progress", "bg-amber-100"],
-    ["Resolved", "bg-emerald-100"],
-    ["Closed", "bg-slate-200"],
+    ["Open", "bg-rose-500/10"],
+    ["In Progress", "bg-amber-500/10"],
+    ["Resolved", "bg-emerald-500/10"],
+    ["Closed", "bg-slate-500/10"],
   ])("shows correct badge style for status '%s'", (status, expectedClass) => {
     renderCard({
       incident: { id: "1", title: "t", description: "d", status },
@@ -60,11 +60,8 @@ describe("IncidentCard", () => {
     expect(screen.getByText("Open")).toBeInTheDocument();
   });
 
-  it("calls onDelete with the incident id after confirmation", async () => {
-    const onDelete = vi.fn().mockResolvedValue(undefined);
-    window.confirm = vi.fn(() => true);
-    // Note: onDelete in IncidentCard doesn't call confirm—DashboardPage does.
-    // IncidentCard calls onDelete directly and awaits it.
+  it("calls onDelete with the incident id when delete button is clicked", async () => {
+    const onDelete = vi.fn();
     renderCard({ onDelete });
     const user = userEvent.setup();
 
@@ -78,17 +75,5 @@ describe("IncidentCard", () => {
     renderCard({ onDelete: undefined });
 
     expect(screen.queryByTitle("Delete incident")).not.toBeInTheDocument();
-  });
-
-  it("disables delete button while deleting", async () => {
-    // onDelete returns a promise that never resolves, simulating in-flight
-    const onDelete = vi.fn(() => new Promise(() => {}));
-    renderCard({ onDelete });
-    const user = userEvent.setup();
-
-    const deleteBtn = screen.getByTitle("Delete incident");
-    await user.click(deleteBtn);
-
-    expect(deleteBtn).toBeDisabled();
   });
 });

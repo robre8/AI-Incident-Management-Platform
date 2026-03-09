@@ -31,9 +31,18 @@ export default function LogForm({ onSubmit }) {
     }
   }
 
+  const inputClass = "w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#0d1526] px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-sky-400 dark:focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all";
+
   return (
-    <div className="rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700 p-4 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold dark:text-slate-100">Create Log</h2>
+    <div className="rounded-xl border border-slate-200 dark:border-sky-500/10 bg-white dark:bg-[#131c31] p-5">
+      <div className="mb-4 flex items-center gap-2">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/10 dark:bg-sky-500/15">
+          <svg className="h-4 w-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </div>
+        <h2 className="text-base font-semibold text-slate-800 dark:text-white font-display">Create Log</h2>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
@@ -41,13 +50,13 @@ export default function LogForm({ onSubmit }) {
           value={form.service}
           onChange={(e) => setForm({ ...form, service: e.target.value })}
           placeholder="Service"
-          className="w-full rounded-lg border dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2 text-sm"
+          className={inputClass}
         />
 
         <select
           value={form.logLevel}
           onChange={(e) => setForm({ ...form, logLevel: e.target.value })}
-          className="w-full rounded-lg border dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2 text-sm"
+          className={inputClass}
         >
           <option value="Info">Info</option>
           <option value="Warning">Warning</option>
@@ -59,20 +68,20 @@ export default function LogForm({ onSubmit }) {
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           placeholder="Log message"
           rows={3}
-          className="w-full rounded-lg border dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 px-3 py-2 text-sm"
+          className={inputClass}
         />
 
         <button
           type="submit"
           disabled={loading || !form.message.trim()}
-          className="rounded-lg bg-slate-900 dark:bg-slate-700 px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50 hover:bg-slate-800 dark:hover:bg-slate-600"
+          className="rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 hover:bg-sky-400 hover:shadow-sky-500/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none transition-all font-display"
         >
           {loading ? "Creating..." : "Create Log"}
         </button>
       </form>
 
       {error && (
-        <p className="mt-3 rounded-lg border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 p-2 text-sm text-amber-800 dark:text-amber-200">
+        <p className="mt-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-sm text-rose-600 dark:text-rose-400">
           {error}
         </p>
       )}

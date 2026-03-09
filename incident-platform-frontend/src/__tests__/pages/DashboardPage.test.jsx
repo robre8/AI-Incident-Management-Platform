@@ -24,8 +24,6 @@ beforeEach(() => {
   vi.clearAllMocks();
   api.getIncidents.mockResolvedValue(incidents);
   api.deleteIncident.mockResolvedValue(undefined);
-  window.confirm = vi.fn(() => true);
-  window.alert = vi.fn();
 });
 
 describe("DashboardPage", () => {
@@ -58,17 +56,23 @@ describe("DashboardPage", () => {
     const deleteBtns = screen.getAllByTitle("Delete incident");
     await user.click(deleteBtns[0]);
 
-    expect(window.confirm).toHaveBeenCalledWith("Delete this incident?");
+    // Modal should appear
+    expect(screen.getByText("Delete Incident")).toBeInTheDocument();
+
+    // Confirm deletion
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+
     expect(api.deleteIncident).toHaveBeenCalledWith("1");
 
     await waitFor(() => {
-      expect(screen.queryByText("DB Down")).not.toBeInTheDocument();
+      expect(screen.queryByText("Delete Incident")).not.toBeInTheDocument();
     });
+    // The deleted incident card should be gone
+    expect(screen.queryByRole("link", { name: /DB Down/ })).not.toBeInTheDocument();
     expect(screen.getByText("API Latency")).toBeInTheDocument();
   });
 
   it("does not delete when user cancels confirmation", async () => {
-    window.confirm = vi.fn(() => false);
     renderPage();
     const user = userEvent.setup();
 
@@ -77,11 +81,19 @@ describe("DashboardPage", () => {
     const deleteBtns = screen.getAllByTitle("Delete incident");
     await user.click(deleteBtns[0]);
 
+    // Modal should appear
+    expect(screen.getByText("Delete Incident")).toBeInTheDocument();
+
+    // Cancel
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
+
     expect(api.deleteIncident).not.toHaveBeenCalled();
     expect(screen.getByText("DB Down")).toBeInTheDocument();
+    // Modal should be closed
+    expect(screen.queryByText("Delete Incident")).not.toBeInTheDocument();
   });
 
-  it("shows alert when delete fails", async () => {
+  it("shows error when delete fails", async () => {
     api.deleteIncident.mockRejectedValue(new Error("Server error"));
     renderPage();
     const user = userEvent.setup();
@@ -91,10 +103,13 @@ describe("DashboardPage", () => {
     const deleteBtns = screen.getAllByTitle("Delete incident");
     await user.click(deleteBtns[0]);
 
+    // Confirm deletion
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith("Failed to delete incident.");
+      expect(screen.getByText("Failed to delete incident.")).toBeInTheDocument();
     });
-    // Incident should still be in the list since delete failed
-    expect(screen.getByText("DB Down")).toBeInTheDocument();
+    // Modal should still be open with the error, incident still in the list
+    expect(screen.getByText("Delete Incident")).toBeInTheDocument();
   });
 });

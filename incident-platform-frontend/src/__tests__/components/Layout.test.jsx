@@ -18,7 +18,8 @@ describe("Layout", () => {
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("New Incident")).toBeInTheDocument();
-    expect(screen.getByText("AI Incident Platform")).toBeInTheDocument();
+    expect(screen.getByText("AI")).toBeInTheDocument();
+    expect(screen.getByText("Incident")).toBeInTheDocument();
   });
 
   it("renders children inside the main area", () => {

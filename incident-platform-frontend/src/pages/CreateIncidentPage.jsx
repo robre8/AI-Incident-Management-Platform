@@ -19,7 +19,7 @@ export default function CreateIncidentPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="mb-6 text-3xl font-bold dark:text-slate-100">Create Incident</h1>
+      <h1 className="mb-6 text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white font-display">Create Incident</h1>
       <IncidentForm onSubmit={handleCreate} loading={loading} />
     </div>
   );
