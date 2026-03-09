@@ -14,8 +14,9 @@ public class ApiKeyMiddleware
     {
         var path = context.Request.Path.Value ?? "";
 
-        // Allow health checks, root, and Swagger without API key
-        if (path == "/" ||
+        // Allow CORS preflight, health checks, root, and Swagger without API key
+        if (context.Request.Method == HttpMethods.Options ||
+            path == "/" ||
             path == "/health" ||
             path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase))
         {

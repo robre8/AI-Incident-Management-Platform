@@ -88,9 +88,9 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseMiddleware<ApiKeyMiddleware>();
-
 app.UseCors("FrontendPolicy");
+
+app.UseMiddleware<ApiKeyMiddleware>();
 app.MapGet("/", () => "AI Incident Platform API is running.");
 app.MapGet("/health", () => Results.Ok("Healthy"));
 app.MapControllers();
