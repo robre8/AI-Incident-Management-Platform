@@ -10,7 +10,7 @@ Built entirely through AI-assisted development using GitHub Copilot — from arc
 
 ## 🎥 Demo
 
-[![Demo Video](https://www.loom.com/share/7ebef06b18174364a8db77164536323d)
+[Demo Video](https://www.loom.com/share/7ebef06b18174364a8db77164536323d)
 
 > **Previously deployed on AWS** (RDS, Elastic Beanstalk, S3, MongoDB Atlas) — infrastructure decommissioned after the demo period.
 
